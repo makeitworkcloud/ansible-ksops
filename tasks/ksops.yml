@@ -1,8 +1,4 @@
 ---
-- name: Testing output
-  ansible.builtin.debug:
-    var: age_keys
-
 - name: Create AGE Secret
   kubernetes.core.k8s:
     state: present
