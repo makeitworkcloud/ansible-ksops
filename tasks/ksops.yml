@@ -10,7 +10,7 @@
         namespace: openshift-gitops
       spec:
         data:
-          key.txt: "{{ age_keys | default('') }}"
+          "key.txt": "{{ age_keys | default('') }}"
 
 - name: Apply KSOPS patch
   kubernetes.core.k8s:
