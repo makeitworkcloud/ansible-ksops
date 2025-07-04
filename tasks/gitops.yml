@@ -37,7 +37,7 @@
 - name: Wait for argocd object
   kubernetes.core.k8s_info:
     state: present
-    apiVersion: argoproj.io/v1beta1
+    api_version: argoproj.io/v1beta1
     kind: ArgoCD
     name: openshift-gitops
     namespace: openshift-gitops
