@@ -71,7 +71,7 @@
 
 - name: Output
   ansible.builtin.debug:
-    var: argocd['resources'][0]
+    var: argocd['resources'][0]['spec']
 
 - name: Wait for changes to be applied
   kubernetes.core.k8s_info:
