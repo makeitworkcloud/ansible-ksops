@@ -41,7 +41,5 @@
     kind: ArgoCD
     name: openshift-gitops
     namespace: openshift-gitops
-  register: argocd
-  until: argocd.resources
   retries: 10
   delay: 10
