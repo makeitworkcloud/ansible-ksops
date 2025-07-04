@@ -1,16 +1,21 @@
 ---
+- name: Testing output
+  ansible.builtin.debug:
+    var: age_keys
+
 - name: Create AGE Secret
   kubernetes.core.k8s:
     state: present
     definition:
       apiVersion: v1
       kind: Secret
+      type: Opaque
       metadata:
         name: sops-age-keys
         namespace: openshift-gitops
       spec:
         data:
-          "key.txt": "{{ age_keys | default('') }}"
+          key.txt: "{{ age_keys | default('') }}"
 
 - name: Apply KSOPS patch
   kubernetes.core.k8s:
