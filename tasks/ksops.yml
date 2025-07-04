@@ -1,0 +1,74 @@
+---
+- name: Create AGE Secret
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion:
+      kind: Secret
+      metadata:
+        name: "{{ age_secret_name | default('sops-age-keys') }}"
+        namespace: openshift-gitops
+      spec:
+        data:
+          key.txt: "{{ age_keys | default('') }}"
+
+- name: Apply KSOPS patch
+  kubernetes.core.k8s:
+    state: patched
+    apiVersion: argoproj.io/v1beta1
+    kind: ArgoCD
+    name: openshift-gitops
+    namespace: openshift-gitops
+    definition:
+      spec:
+        kustomizeBuildOptions: "--enable-alpha-plugins --enable-exec"
+        repo:
+          resources:
+            limits:
+              cpu: '1'
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          env:
+            - name: XDG_CONFIG_HOME
+              value: /.config
+            - name: SOPS_AGE_KEY_FILE
+              value: /.config/sops/age/key.txt
+          volumes:
+            - name: custom-tools
+              emptyDir: {}
+            - name: sops-age-keys
+              secret:
+                secretName: "{{ age_secret_name | default('sops-age-keys') }}"
+          initContainers:
+            - name: install-ksops
+              image: viaductoss/ksops:v4.3.3
+              command: ["/bin/sh", "-c"]
+              args:
+                - 'echo "Installing KSOPS..."; cp ksops /custom-tools/; cp $GOPATH/bin/kustomize /custom-tools/; echo "Done.";'
+              volumeMounts:
+                - mountPath: /custom-tools
+                  name: custom-tools
+          volumeMounts:
+            - mountPath: /usr/local/bin/kustomize
+              name: custom-tools
+              subPath: kustomize
+            - mountPath: /usr/local/bin/ksops
+              name: custom-tools
+              subPath: ksops
+            - mountPath: /.config/sops/age/key.txt
+              name: sops-age-keys
+              subPath: key.txt
+
+- name: Wait for changes to be applied
+  kubernetes.core.k8s_info:
+    state: present
+    apiVersion: argoproj.io/v1beta1
+    kind: ArgoCD
+    name: openshift-gitops
+    namespace: openshift-gitops
+  register: argocd
+  until: '"KSOPS" in argocd.resources.spec'
+  retries: 10
+  delay: 10
