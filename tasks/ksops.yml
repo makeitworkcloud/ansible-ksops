@@ -61,6 +61,18 @@
               name: sops-age-keys
               subPath: key.txt
 
+- name: Troubleshooting info
+  kubernetes.core.k8s_info:
+    api_version: argoproj.io/v1beta1
+    kind: ArgoCD
+    name: openshift-gitops
+    namespace: openshift-gitops
+  register: argocd
+
+- name: Output
+  ansible.builtin.debug:
+    var: argocd['resources'][0]
+
 - name: Wait for changes to be applied
   kubernetes.core.k8s_info:
     api_version: argoproj.io/v1beta1
@@ -68,7 +80,7 @@
     name: openshift-gitops
     namespace: openshift-gitops
   register: argocd
-  until: "\"KSOPS\" in argocd.resources[0]['spec']['repo']['initContainers'][0]['args']"
+  until: "\"KSOPS\" in argocd['resources'][0]['spec']['repo']['initContainers'][0]['args']"
   retries: 10
   delay: 10
   ignore_errors: "{{ ansible_check_mode }}"
