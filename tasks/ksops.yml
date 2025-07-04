@@ -43,7 +43,7 @@
                 secretName: sops-age-keys
           initContainers:
             - name: install-ksops
-              image: viaductoss/ksops:v4.3.3
+              image: viaductoss/ksops:latest-amd64
               command: ["/bin/sh", "-c"]
               args:
                 - 'echo "Installing KSOPS..."; cp ksops /custom-tools/; cp $GOPATH/bin/kustomize /custom-tools/; echo "Done.";'
@@ -69,6 +69,6 @@
     namespace: openshift-gitops
   register: argocd
   until: "\"KSOPS\" in argocd['resources'][0]['spec']['repo']['initContainers'][0]['args'][0] | default('')"
-  retries: 30
+  retries: 50
   delay: 10
   ignore_errors: "{{ ansible_check_mode }}"
