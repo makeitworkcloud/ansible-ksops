@@ -3,7 +3,7 @@
   kubernetes.core.k8s:
     state: present
     definition:
-      apiVersion:
+      apiVersion: v1
       kind: Secret
       metadata:
         name: sops-age-keys
