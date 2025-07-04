@@ -72,3 +72,4 @@
   until: '"KSOPS" in argocd.resources.spec'
   retries: 10
   delay: 10
+  ignore_errors: "{{ ansible_check_mode }}"
