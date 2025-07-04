@@ -63,7 +63,6 @@
 
 - name: Wait for changes to be applied
   kubernetes.core.k8s_info:
-    state: present
     api_version: argoproj.io/v1beta1
     kind: ArgoCD
     name: openshift-gitops
