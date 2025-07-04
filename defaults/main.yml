@@ -1,4 +1,3 @@
 ---
 # defaults file for ksopsgitops
-age_secret_name: sops-age-keys
 age_keys: ''

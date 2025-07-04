@@ -6,7 +6,7 @@
       apiVersion:
       kind: Secret
       metadata:
-        name: "{{ age_secret_name | default('sops-age-keys') }}"
+        name: sops-age-keys
         namespace: openshift-gitops
       spec:
         data:
@@ -40,7 +40,7 @@
               emptyDir: {}
             - name: sops-age-keys
               secret:
-                secretName: "{{ age_secret_name | default('sops-age-keys') }}"
+                secretName: sops-age-keys
           initContainers:
             - name: install-ksops
               image: viaductoss/ksops:v4.3.3

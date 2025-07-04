@@ -7,7 +7,6 @@ Ansible role deploying OpenShift GitOps with KSOPS
 - [Requirements](#requirements)
 - [Default Variables](#default-variables)
   - [age_keys](#age_keys)
-  - [age_secret_name](#age_secret_name)
 - [Dependencies](#dependencies)
 - [License](#license)
 - [Author](#author)
@@ -26,14 +25,6 @@ Ansible role deploying OpenShift GitOps with KSOPS
 
 ```YAML
 age_keys: ''
-```
-
-### age_secret_name
-
-#### Default value
-
-```YAML
-age_secret_name: sops-age-keys
 ```
 
 
