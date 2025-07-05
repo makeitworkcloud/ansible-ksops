@@ -42,5 +42,5 @@
     namespace: openshift-gitops
   register: argocd
   until: argocd.resources | default('') | length > 0
-  retries: 10
-  delay: 30
+  retries: 60
+  delay: 10

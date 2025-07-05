@@ -70,6 +70,6 @@
     namespace: openshift-gitops
   register: argocd
   until: "\"KSOPS\" in argocd['resources'][0]['spec']['repo']['initContainers'][0]['args'][0] | default('')"
-  retries: 10
-  delay: 30
+  retries: 60
+  delay: 10
   ignore_errors: "{{ ansible_check_mode }}"
