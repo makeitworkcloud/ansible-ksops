@@ -9,10 +9,9 @@
       metadata:
         name: sops-age-keys
         namespace: openshift-gitops
-      spec:
-        data:
-          key.txt: |
-            {{ age_keys | default('') }}
+      data:
+        key.txt: |
+          {{ age_keys | default('') | b64encode }}
 
 - name: Apply KSOPS patch
   kubernetes.core.k8s:

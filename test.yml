@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: sops-age-keys
+  namespace: openshift-gitops
+data:
+  key.txt: AGE-SECRET-KEY-13MG7AVJ8RPP8VV2MM5WADYKMFD7DL8CUHTZQ0WYTUPKH6EHDG0CSDZ0GN6
