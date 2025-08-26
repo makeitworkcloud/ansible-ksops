@@ -27,8 +27,6 @@ Ansible role deploying OpenShift GitOps with KSOPS
 age_keys: ''
 ```
 
-
-
 ## Dependencies
 
 None.
